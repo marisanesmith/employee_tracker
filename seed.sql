@@ -37,5 +37,4 @@ INSERT INTO role (id, title, salary, department_id)
 VALUES (1, "Software Engineer", 150,000, 3);
 
 
--- create insert into for each department, role and employee
 -- inner join the 3 tables

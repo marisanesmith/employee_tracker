@@ -1,0 +1,17 @@
+DROP DATABASE IF EXISTS jobDB
+
+CREATE DATABASE jobDB
+
+USE jobDB
+
+CREATE TABLE department (
+
+)
+
+CREATE TABLE role (
+
+)
+
+CREATE TABLE employee (
+
+)

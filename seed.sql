@@ -4,20 +4,9 @@ CREATE DATABASE jobDB
 
 USE jobDB
 
-CREATE TABLE products (
-  id INT NOT NULL AUTO_INCREMENT,
-  flavor VARCHAR(45) NULL,
-  price DECIMAL(10,2) NULL,
-  quantity INT NULL,
-  PRIMARY KEY (id)
-);
-
-INSERT INTO products (flavor, price, quantity)
-VALUES ("vanilla", 2.50, 100);
-
 CREATE TABLE department (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR(30) NULL,
+    dep_name VARCHAR(30) NULL,
     PRIMARY KEY (id)
 )
 
@@ -38,6 +27,14 @@ CREATE TABLE role (
     PRIMARY KEY (id)
 )
 
+INSERT INTO department (id, dep_name)
+VALUES (1, "Engineering");
+
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
+VALUES (1, "Marisa", "NeSmith", 1, null);
+
+INSERT INTO role (id, title, salary, department_id)
+VALUES (1, "Software Engineer", 150,000, 3);
 
 
 -- create insert into for each department, role and employee

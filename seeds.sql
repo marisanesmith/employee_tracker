@@ -1,6 +1,6 @@
 USE jobsDB;
 
-INSERT INTO department (dept_name)
+INSERT INTO department (name)
 VALUES 
 ("Engineering"),
 ("Legal"),

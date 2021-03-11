@@ -3,6 +3,15 @@ const mysql = require('mysql')
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 
+const connection = mysql.createConnection({
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: process.env.password,
+  database: 'jobDB',
+});
+
+
 // inquirer prompts, confirms
 
 function mainOptions() {
@@ -71,6 +80,15 @@ function addEmployee() {
     // })
 };
 
+// View all Employees
+function viewAllEmployees() {
+    this.connection.query("SELECT * FROM employee", (err,res) => {
+        if (err) throw err;
+        console.table(res);
+        mainOptions();
+        })
+}
+
 // Add role function
 function addRole() {
     return inquirer.prompt([
@@ -98,6 +116,15 @@ function addRole() {
     // })
 };
 
+// View all Roles
+function viewAllRoles() {
+    this.connection.query("SELECT * FROM role", (err, res) => {
+        if(err) throw err;
+        console.table(res);
+        mainOptions();
+    })
+};
+
 // Add Department function
 
 function addDepartment() {
@@ -116,17 +143,8 @@ function addDepartment() {
     // })
 }
 
-// View all Employees
-function viewAllEmployees() {
-    this.connection.query("SELECT * FROM employee", (err,res) => {
-        if (err) throw err;
-        console.table(res);
-        mainOptions();
-        })
-}
-
 // View all Departments (is it employee.department or just department?)
- function viewAllDept() {
+function viewAllDept() {
     this.connection.query("SELECT * FROM employee.department", (err, res) => {
         if(err) throw err;
         console.table(res);
@@ -134,14 +152,6 @@ function viewAllEmployees() {
     })
 };
 
-// View all Roles
-function viewAllRoles() {
-    this.connection.query("SELECT * FROM role", (err, res) => {
-        if(err) throw err;
-        console.table(res);
-        mainOptions();
-    })
-};
 
 
 // Function to update employee

@@ -1,12 +1,12 @@
 const mysql = require('mysql')
 // const express = require('express')
 const inquirer = require('inquirer');
-const { listenerCount } = require('events');
+const consoleTable = require('console.table');
 
 // inquirer prompts, confirms
 
 function mainOptions() {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'list',
             name: 'options',
@@ -25,7 +25,7 @@ function mainOptions() {
 };
 
 function addEmployee() {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'first',

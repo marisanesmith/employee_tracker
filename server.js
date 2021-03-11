@@ -14,11 +14,14 @@ function mainOptions() {
             choices: [
                 'View All Employees',
                 'View All Employees By Department',
-                'View All Employees by Manager', //delete if I don't get to this part
+                'View All Employees by Role',
                 'Add Employee',
-                'Remove Employee', //delete if I don't get to this part
+                'Add Department',
+                "Add Role",
                 'Update Employee Role',
-                'Update Employee Manager' //delete if I don't get to this part
+                'Update Employee Manager', //delete if I don't get to this part
+                'Remove Employee', //delete if I don't get to this part
+
             ]
         }
     ])
@@ -26,6 +29,7 @@ function mainOptions() {
 
 mainOptions();
 
+// Add Employee function
 function addEmployee() {
     inquirer.prompt([
         {
@@ -67,6 +71,7 @@ function addEmployee() {
     // })
 };
 
+// Add role function
 function addRole() {
     return inquirer.prompt([
         {
@@ -86,12 +91,14 @@ function addRole() {
         },
 
     ])
-    // .then((response) => {
+    // .then((res) => {
     //     const intern = new Intern(response.name, response.id, response.email, response.school);
     //     team.push(intCard(intern));
     //     newTeamMbr();
     // })
 };
+
+// Add Department function
 
 function addDepartment() {
     return inquirer.prompt([
@@ -107,7 +114,40 @@ function addDepartment() {
     //     team.push(intCard(intern));
     //     newTeamMbr();
     // })
+}
+
+// View all Employees
+function viewAllEmployees() {
+    this.connection.query("SELECT * FROM employee", (err,res) => {
+        if (err) throw err;
+        console.table(res);
+        mainOptions();
+        })
+}
+
+// View all Departments (is it employee.department or just department?)
+ function viewAllDept() {
+    this.connection.query("SELECT * FROM employee.department", (err, res) => {
+        if(err) throw err;
+        console.table(res);
+        mainOptions();
+    })
 };
+
+// View all Roles
+function viewAllRoles() {
+    this.connection.query("SELECT * FROM role", (err, res) => {
+        if(err) throw err;
+        console.table(res);
+        mainOptions();
+    })
+};
+
+
+// Function to update employee
+// function updateEmployee() {
+//     viewAllEmployees()
+// }
 
 
 

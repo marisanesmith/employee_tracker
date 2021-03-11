@@ -10,3 +10,4 @@ const connection = mysql.createConnection({
   database: 'jobDB',
 });
 
+

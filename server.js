@@ -7,10 +7,14 @@ const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: process.env.password,
+  password: 'developer',
   database: 'jobDB',
 });
 
+connection.connect((err) => {
+    if (err) throw err;
+    mainOptions();
+  });
 
 // inquirer prompts, confirms
 
@@ -35,8 +39,6 @@ function mainOptions() {
         }
     ])
 };
-
-mainOptions();
 
 // Add Employee function
 function addEmployee() {

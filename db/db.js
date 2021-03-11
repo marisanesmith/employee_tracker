@@ -1,16 +1,31 @@
-const mysql = require('mysql');
-const inquirer = require('inquirer');
-const consoleTable = require('console.table')
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'developer',
-  database: 'jobDB',
-});
+const connection = require('./connection.js')
 
 // rewrite to view, create and update job database based on user input
+
+class DB {
+    constructor(connection) {
+        this.connection = connection
+    }
+
+    findAllEmployees(){
+        this.connection.query(
+            ""
+        )
+    }
+}
+
+module.exports = new DB (connection)
+
+
+
+
+
+
+
+
+
+
+
 
 const readProducts = () => {
     console.log('Selecting all products...\n');

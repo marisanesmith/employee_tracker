@@ -3,26 +3,26 @@ const mysql = require('mysql')
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 
+// change back to process.env ????
 const connection = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: process.env.password,
-  database: 'jobDB',
-});
-
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'root',
+    database: 'jobDB',
+  });
 
 // inquirer prompts, confirms
 
-function mainOptions() {
-    inquirer.prompt([
+const mainOptions = () => {
+    inquirer.prompt(
         {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',  
             choices: [
                 'View All Employees',
-                'View All Employees By Department',
+                "View All Employees by Department",
                 'View All Employees by Role',
                 'Add Employee',
                 'Add Department',
@@ -30,16 +30,56 @@ function mainOptions() {
                 'Update Employee Role',
                 'Update Employee Manager', //delete if I don't get to this part
                 'Remove Employee', //delete if I don't get to this part
-
+                'Exit'
             ]
+        })
+    .then((answer) => {
+        console.log("this is a test")
+        switch(answer.mainOptions) {
+            case "View All Employees":
+                viewAllEmployees();
+                break;
+
+            case "View All Employees by Department":
+                viewAllDept();
+                break;
+            
+            case "View All Employees by Role":
+                viewAllRoles();
+                break;
+
+            case "Add Employee":
+                addEmployee();
+                break;
+
+            case "Add Department":
+                addDepartment();
+                break;
+
+            case "Add Role":
+                addRole();
+                break;
+
+            case "Update Employee Role":
+                updateEmployee();
+                break;
+
+            // add back in if I get to this part
+            // case "Remove Employee":
+            //     removeEmployee();
+            //     break;
+
+            case "Exit":
+                connection.end();
+                break;
         }
-    ])
+    });
 };
 
 mainOptions();
 
 // Add Employee function
-function addEmployee() {
+const addEmployee = () => {
     inquirer.prompt([
         {
             type: 'input',
@@ -68,21 +108,30 @@ function addEmployee() {
         },
         {
             type: 'input',
-            name: 'manager',
-            message: "Who is the employee's manager?"
+            name: 'managerID',
+            message: "What is the manager's ID?"
         }
 
     ])
-    // .then((response) => {
-    //     const engineer = new Engineer(response.name, response.id, response.email, response.github);
-    //     team.push(engCard(engineer));
-    //     newTeamMbr();
-    // })
+    .then((res) => {
+        connection.query('INSERT INTO employee SET ?',
+        {
+            first_name: res.first,
+            last_name: res.last,
+            role_id: res.role,
+            manager_id: res.managerID,
+        },
+        (err) => {
+            if(err) throw err;
+            console.log("You have added a new employee");
+            mainOptions();
+        });
+    }); 
 };
 
 // View all Employees
-function viewAllEmployees() {
-    this.connection.query("SELECT * FROM employee", (err,res) => {
+const viewAllEmployees = () => {
+    connection.query("SELECT * FROM employee", (err,res) => {
         if (err) throw err;
         console.table(res);
         mainOptions();
@@ -90,7 +139,7 @@ function viewAllEmployees() {
 }
 
 // Add role function
-function addRole() {
+const addRole = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -104,20 +153,25 @@ function addRole() {
         },
         {
             type: 'input',
-            name: 'roleID',
+            name: 'id',
             message: "What is the ID for the role?"
         },
 
     ])
-    // .then((res) => {
-    //     const intern = new Intern(response.name, response.id, response.email, response.school);
-    //     team.push(intCard(intern));
-    //     newTeamMbr();
-    // })
+    .then((res) => {
+        connection.query('INSERT INTO role SET ?',
+        {
+            title: res.role,
+            salary: res.salary,
+            department_id: res.id,
+        });
+        console.log("You have added a new role");
+        mainOptions();
+    }) 
 };
 
 // View all Roles
-function viewAllRoles() {
+const viewAllRoles = () => {
     this.connection.query("SELECT * FROM role", (err, res) => {
         if(err) throw err;
         console.table(res);
@@ -127,30 +181,36 @@ function viewAllRoles() {
 
 // Add Department function
 
-function addDepartment() {
-    return inquirer.prompt([
-        {
+const addDepartment = () => {
+    return inquirer.prompt({
             type: 'input',
             name: 'department',
             message: "What is the name of the Department?"
-        },
-
-    ])
-    // .then((response) => {
-    //     const intern = new Intern(response.name, response.id, response.email, response.school);
-    //     team.push(intCard(intern));
-    //     newTeamMbr();
-    // })
-}
+    })
+    .then((res) => {
+        connection.query('INSERT INTO department SET ?',
+        {
+            name: res.department,
+        });
+        console.log("You have added a new department");
+        mainOptions();
+    }) 
+};
 
 // View all Departments (is it employee.department or just department?)
-function viewAllDept() {
-    this.connection.query("SELECT * FROM employee.department", (err, res) => {
+const viewAllDept = () => {
+    connection.query("SELECT * FROM department", (err, res) => {
         if(err) throw err;
         console.table(res);
         mainOptions();
     })
 };
+
+// connection.connect((err) => {
+//     if (err) throw err;
+//     //run the mainOptions function after the connection is made to prompt the user
+//     mainOptions();
+// });
 
 
 
@@ -160,13 +220,3 @@ function viewAllDept() {
 // }
 
 
-
-// choices of what you would like to do
-
-//add employee
-
-//add job description
-
-//add department
-
-// main menu

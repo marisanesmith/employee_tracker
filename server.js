@@ -24,6 +24,8 @@ function mainOptions() {
     ])
 };
 
+mainOptions();
+
 function addEmployee() {
     inquirer.prompt([
         {

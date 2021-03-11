@@ -7,12 +7,33 @@ class DB {
         this.connection = connection
     }
 
-    findAllEmployees(){
-        this.connection.query(
-            ""
-        )
+    // View all Employees
+    viewAllEmployees() {
+        this.connection.query("SELECT * FROM employee", (err,res) => {
+            if (err) throw err;
+            console.table(res);
+            mainOptions();
+            })
     }
-}
+
+    // View all Departments (is it employee.department or just department?)
+    viewAllDept() {
+        this.connection.query("SELECT * FROM employee.department", (err, res) => {
+            if(err) throw err;
+            console.table(res);
+            mainOptions();
+        })
+    }
+
+    // View all Roles
+    viewAllRoles() {
+        this.connection.query("SELECT * FROM employee.department", (err, res) => {
+            if(err) throw err;
+            console.table(res);
+            mainOptions();
+        })
+    }
+};
 
 module.exports = new DB (connection)
 

@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-// const express = require('express')
+const express = require('express')
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 
@@ -9,13 +9,17 @@ const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: 'developer',
-  database: 'jobDB',
+  password: 'root',
+  database: 'employees',
 });
 
-// connection.connect((err) => {
-//     if (err) throw err;
-//     mainOptions();
+connection.connect(err => {
+    if(err) throw err;
+    console.log("Connected as id" + connection.threadId)
+});
+
+const app = express()
+var PORT = 8080;
 
 
 // inquirer prompts, confirms
@@ -39,11 +43,12 @@ const mainOptions = () => {
                 'Exit'
             ]
         })
-    .then((answer) => {
+    .then((res) => {
         console.log("this is a test")
-        switch(answer.mainOptions) {
+        switch(res.options) {
             case "View All Employees":
                 viewAllEmployees();
+                console.log("add employees")
                 break;
 
             case "View All Employees by Department":
@@ -98,19 +103,9 @@ const addEmployee = () => {
             message: "What is the employee's last name"
         },
         {
-            type: 'list',
+            type: 'input',
             name: 'role',
-            message: "What is the employee's role?",
-            choices: [
-                'Sales Lead',
-                'Salesperson',
-                'Lead Engineer',
-                'Software Engineer',
-                'Lead Engineer',
-                'Accountant',
-                'Legal Team Lead',
-                'Lawyer'
-            ]
+            message: "What is the employee's role ID?"
         },
         {
             type: 'input',
@@ -138,6 +133,7 @@ const addEmployee = () => {
 // View all Employees
 const viewAllEmployees = () => {
     connection.query("SELECT * FROM employee", (err,res) => {
+        console.log(res);
         if (err) throw err;
         console.table(res);
         mainOptions();
@@ -178,7 +174,7 @@ const addRole = () => {
 
 // View all Roles
 const viewAllRoles = () => {
-    this.connection.query("SELECT * FROM role", (err, res) => {
+    connection.query("SELECT * FROM role", (err, res) => {
         if(err) throw err;
         console.table(res);
         mainOptions();
@@ -212,17 +208,52 @@ const viewAllDept = () => {
     })
 };
 
-// connection.connect((err) => {
-//     if (err) throw err;
-//     //run the mainOptions function after the connection is made to prompt the user
-//     mainOptions();
-// });
+// Update employee role
+const updateEmployee = () => {
+    connection.query("SELECT * FROM employee", (err, res) => {
+        if (err) throw err;
+        console.table(res);
 
+        const employees = res.map(emp => ({
+            name: `${emp.first_name} ${emp.last_name}`,
+            value: `${emp.id}`
+        }));
+        connection.query('SELECT * FROM role', (err, res) => {
+            if (err) throw err;
+            console.table(res);
+            const roles = res.map(rol => ({
+                name: `${rol.title}`,
+                value: `${rol.id}`
+            }));
 
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeList',
+            message: "Which employee do you want to update?",
+            choices: employees
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message: "What is the employees new role ID?",
+            choices: roles
+        }
+    ]).then(res => {
+        console.log(res)
+        connection.query('UPDATE employee SET role_id = ? WHERE id = ?', [res.roleId, res.employeeList], (err, res) => {
+            if (err) throw err;
+            console.log("The employee's role was successfully updated"),
+            mainOptions();
+        })
+    })
+})
+})
+}
 
-// Function to update employee
-// function updateEmployee() {
-//     viewAllEmployees()
-// }
+app.listen(PORT, () => {
+    console.log(`App listening on PORT: ${PORT}`);
+    });
+
 
 

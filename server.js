@@ -199,7 +199,7 @@ const addDepartment = () => {
     }) 
 };
 
-// View all Departments (is it employee.department or just department?)
+// View all Departments 
 const viewAllDept = () => {
     connection.query("SELECT * FROM department", (err, res) => {
         if(err) throw err;

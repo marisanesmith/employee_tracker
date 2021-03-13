@@ -25,12 +25,10 @@ INSERT INTO employee
 VALUES
     ('Marisa', 'NeSmith', 1, NULL),
     ('Matthew', 'NeSmith', 2, 1),
-    ('Ashley', 'Rodriguez', 3, NULL),
-    ('Kevin', 'Tupik', 4, 3),
-    ('Kunal', 'Singh', 5, NULL),
-    ('Malia', 'Brown', 6, 5),
-    ('Sarah', 'Lourd', 7, NULL),
-    ('Tom', 'Allen', 8, 7);
+    ('Meghan', 'NeSmith', 3, NULL),
+    ('Chris', 'Harkness', 4, 3),
+    ('Kathy', 'Tran', 5, NULL),
+    ('Bianca', 'Haas', 6, 5),
+    ('Teresa', 'Moon', 7, NULL),
+    ('Mohamed', 'Hamdhoon', 8, 7);
 
-
--- inner join the 3 tables

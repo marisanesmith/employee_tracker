@@ -6,11 +6,11 @@ const consoleTable = require('console.table');
 // change back to process.env ????
 const connection = mysql.createConnection({
 
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'root',
-  database: 'employees',
+host: 'localhost',
+port: 3306,
+user: 'root',
+password: 'root',
+database: 'employees',
 });
 
 connection.connect(err => {

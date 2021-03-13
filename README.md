@@ -1,8 +1,8 @@
-Employee Tracker 
+## Employee Tracker 
 
 ![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)<br>
 
-Table of Contents
+## Table of Contents
 * [Project Overview](#Project-Overview)
 * [Application](#Application)
 * [Dependencies](#Dependencies)
@@ -15,7 +15,6 @@ As an employer and business owner I want to be able to easily view my employees,
 ## Application
 [Employee Tracker Video Link](https://drive.google.com/file/d/1-imu-rP9sOSufuA75wNergu142ZKp1Nn/view)
 
-![Main Menu Options:](img/menu.png)
 ![Employee List:](img/employees.png)
 ![Departments:](img/dept.png)
 ![Roles:](img/roles.png)

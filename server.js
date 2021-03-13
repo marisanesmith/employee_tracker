@@ -3,7 +3,6 @@ const express = require('express')
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 
-// change back to process.env ????
 const connection = mysql.createConnection({
 
 host: 'localhost',
@@ -22,8 +21,6 @@ const app = express()
 var PORT = 8080;
 
 
-// inquirer prompts, confirms
-
 const mainOptions = () => {
     inquirer.prompt(
         {
@@ -38,13 +35,11 @@ const mainOptions = () => {
                 'Add Department',
                 "Add Role",
                 'Update Employee Role',
-                'Update Employee Manager', //delete if I don't get to this part
-                'Remove Employee', //delete if I don't get to this part
+                // 'Remove Employee',
                 'Exit'
             ]
         })
     .then((res) => {
-        console.log("this is a test")
         switch(res.options) {
             case "View All Employees":
                 viewAllEmployees();
@@ -207,6 +202,32 @@ const viewAllDept = () => {
         mainOptions();
     })
 };
+
+// remove employee
+// const removeEmployee = () => {
+//     connection.query("SELECT * FROM employee", (err, res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         const employee = res.map(emp => ({
+//             name: `${emp.first_name} ${emp.last_name}`
+//         }));
+//         inquirer.prompt ({
+//             type: "input",
+//             name: "removeEmp",
+//             message: "What employee would you like to remove?",
+//             choices: employee
+//         }).then((res) => {
+//             connection.query('DELETE FROM employee WHERE ?', {
+//                 id: res.removeEmp,
+//             }),
+//             (err, res) => {
+//                 if (err) throw err;
+//                 console.log("You have successfully removed the Employee");
+//                 mainOptions();
+//             }
+//         })
+//     })
+// };
 
 // Update employee role
 const updateEmployee = () => {
